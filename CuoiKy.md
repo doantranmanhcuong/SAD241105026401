@@ -45,3 +45,63 @@ Các yêu cầu phi chức năng cho hệ thống trạm thời tiết hoang dã
 - Hệ thống cần có khả năng dễ dàng mở rộng và thêm mới các trạm thời tiết mà không cần thay đổi cấu trúc hoặc phần mềm hệ thống hiện tại.
 #### 5.5.Bảo trì và sửa chữa dễ dàng:
 - Dù khó tiếp cận, nhưng hệ thống phần cứng và phần mềm của trạm cần phải thiết kế sao cho dễ bảo trì và sửa chữa từ xa, chẳng hạn như khả năng tự chẩn đoán sự cố và cập nhật phần mềm từ xa.
+
+## II.Phân tích các ca sử dụng:
+### 1. Kiến trúc đề xuất:
+Hệ thống được thiết kế theo kiến trúc hướng đối tượng (object-oriented architecture) với các thành phần chính sau:
+- Lớp cảm biến (Sensors):
+  - Thu thập dữ liệu thời tiết từ các cảm biến như nhiệt độ, độ ẩm, tốc độ gió, áp suất không khí, lượng mưa.
+  - Gửi dữ liệu thô đến lớp xử lý.
+
+- Lớp xử lý dữ liệu (Data Processor):
+  - Xử lý dữ liệu thô từ cảm biến, bao gồm làm sạch dữ liệu, phát hiện lỗi, và chuẩn bị dữ liệu để gửi đi.
+  - Phân loại và lưu trữ dữ liệu tạm thời trong bộ nhớ.
+
+- Lớp quản lý năng lượng (Power Management):
+  - Theo dõi và quản lý việc tiêu thụ năng lượng của hệ thống.
+  - Điều phối hoạt động của các thành phần dựa trên mức năng lượng hiện có từ nguồn tái tạo.
+
+- Lớp truyền thông (Communication):
+  - Kết nối với hệ thống vệ tinh để truyền dữ liệu về trung tâm.
+  - Nhận lệnh hoặc bản cập nhật phần mềm từ trung tâm.
+
+- Lớp quản lý lỗi (Fault Management):
+  - Phát hiện lỗi phần cứng hoặc phần mềm và kích hoạt cơ chế khắc phục (tự cấu hình lại hoặc thông báo lỗi).
+
+- Lớp điều khiển chính (Main Controller):
+  - Điều phối hoạt động của các lớp trên, đảm bảo hệ thống hoạt động liên tục và chính xác.
+
+Biểu đồ:
+                        +-----------------------------+
+                        |       Main Controller       |
+                        | (Điều phối các hoạt động)   |
+                        +-------------+---------------+
+                                      |
+     ---------------------------------------------------------
+     |                          |                          |
++----------------+      +----------------+      +--------------------+
+| Sensors Layer  |      | Data Processor |      | Power Management  |
+| (Thu thập dữ  |      | Layer           |      | Layer             |
+| liệu thời tiết)|      | (Xử lý dữ liệu |      | (Quản lý năng      |
+|                |      | thô)           |      | lượng: Pin, NLMT, |
+| - Nhiệt độ     |      |                |      | NL Gió)           |
+| - Độ ẩm        | ---> | - Làm sạch     |      |                    |
+| - Áp suất      |      | - Phát hiện lỗi|      +--------------------+
+| - Tốc độ gió   |      | - Lưu trữ tạm  |                |
+| - Lượng mưa    |      +----------------+                |
++----------------+                                      |
+                                                        |
+                                     +------------------v-----------------+
+                                     | Communication Layer                |
+                                     | (Truyền thông qua vệ tinh)         |
+                                     | - Gửi dữ liệu về trung tâm         |
+                                     | - Nhận cập nhật từ trung tâm       |
+                                     +-------------------------------------+
+                                                        |
+                                     +------------------v-----------------+
+                                     | Fault Management Layer             |
+                                     | (Quản lý lỗi và khắc phục)         |
+                                     | - Phát hiện lỗi                    |
+                                     | - Tự cấu hình lại                  |
+                                     | - Gửi báo cáo lỗi về trung tâm     |
+                                     +-------------------------------------+
