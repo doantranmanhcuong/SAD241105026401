@@ -134,3 +134,65 @@ Hệ thống được thiết kế theo kiến trúc hướng đối tượng (o
 
 ### Biểu đồ quan hệ của các cơ chế:
 ![Login](https://www.planttext.com/plantuml/png/VLJBRjD05DrRyZ_SFQh4EWlKaY90F8H85smdpk0PrPunanc9WbXLA0iM9Ik4K0MXYX2Fg4M8ZKU8XQFyn_m9Tvn7FKbA5exjkVUSUyyvoMvV4wLDdiLH_v2BWYYIGvAHVdzFQyMxHjExYHGT_eB2zJYAe_eCzeacxOmImKKAB-C8y7CDxajNZZXqdJs1dhFda75d1mO4m-_NPbdMPiQLNmMmwXTfriNHgqk6Mqf9jKyrJJINufBZ4Qj66ZpWG43cx3iEYIlFSkXoL_uL_obhJjHrvLY3PhCBPqz56Z8BgjAZ1r9mBLMmtm6Z4dhLRmvYUem7cMy_mvi5Z_RhBujdvyv-I41N4y7MwpMllXcaTtOSKEyPBHzJrFifJuqYuUO7plw4wT3PzuY0EuyDAlW3mRDQTGGRr913F3vaVB6rm3SdIuXx-F2Hhq3cZPfLdn2bOAxy8hnvR-QjmMGTeccMSKtRCi-DuCdQSBUTdOGI8mdw0LePlt3rEL-MFaIYYV0RJ0e_NZb19vpz7fGsg0zeNaX5r547_I0fRUHjTc42Jcz0NejmklBX3kw2q2WyF3FL26zhqPxZm91LVxO4C0ZtpiwDzIosuCcoMIjlAThi1IysCXT7QwqURPl9BRXPZUJ2Cc_FyQR32BQUpAlXfc_dFmgyoetqAOdNfXXRkAumt3Dk6DBQuaHJcBGEntI8i1kz7Z0Gl0LjimXu4K0cJAvSypRjKj6h_xZ-0G00)
+
+### 3.Kết quả các ca phân tích:
+#### Ca sử dụng 1: Thu thập dữ liệu thời tiết
+##### Mục tiêu: Thu thập dữ liệu về các yếu tố khí hậu (nhiệt độ, độ ẩm, áp suất không khí, tốc độ gió) từ các cảm biến trong khu vực.
+- Mô tả:
+  - Người tham gia: Cảm biến (sensors), hệ thống giám sát.
+- Tiến trình:
+  - Cảm biến đo lường các yếu tố khí hậu.
+  - Dữ liệu thu thập được sẽ được chuyển tiếp đến DataProcessorLayer để làm sạch và xử lý.
+- Kết quả: Dữ liệu thời tiết chính xác được thu thập và chuyển đến lớp xử lý.
+
+#### Ca sử dụng 2: Xử lý dữ liệu và phát hiện lỗi
+##### Mục tiêu: Xử lý dữ liệu thu thập được từ các cảm biến, đồng thời phát hiện lỗi trong quá trình thu thập.
+- Mô tả:
+  - Người tham gia: DataProcessorLayer, ErrorDetection.
+- Tiến trình:
+  - Dữ liệu thô được gửi đến DataProcessorLayer để làm sạch và xử lý.
+  - ErrorDetection phát hiện lỗi dữ liệu hoặc phần cứng.
+  - Nếu phát hiện lỗi, hệ thống sẽ gửi cảnh báo về FaultManagementLayer.
+- Kết quả: Dữ liệu được xử lý và lỗi (nếu có) sẽ được phát hiện và báo cáo.
+  
+#### Ca sử dụng 3: Quản lý năng lượng
+##### Mục tiêu: Quản lý nguồn năng lượng của hệ thống để đảm bảo hoạt động liên tục.
+- Mô tả:
+  - Người tham gia: PowerManagementLayer.
+- Tiến trình:
+  - EnergyMonitoring theo dõi tình trạng năng lượng của hệ thống.
+  - Kiểm tra mức năng lượng từ các nguồn (pin mặt trời, tua-bin gió, pin lưu trữ).
+  - Nếu mức năng lượng quá thấp, hệ thống sẽ kích hoạt chế độ tiết kiệm năng lượng hoặc gửi cảnh báo về trung tâm.
+-Kết quả: Đảm bảo hệ thống luôn có đủ năng lượng hoạt động và không bị gián đoạn.
+
+#### Ca sử dụng 4: Truyền tải dữ liệu qua vệ tinh
+##### Mục tiêu: Truyền tải dữ liệu về trung tâm điều khiển để phân tích và lưu trữ.
+- Mô tả:
+  - Người tham gia: CommunicationLayer, SatelliteCommunication.
+- Tiến trình:
+  - Dữ liệu đã được xử lý sẽ được gửi qua vệ tinh đến trung tâm điều khiển.
+  - Dữ liệu có thể là các thông tin thời tiết, báo cáo sự cố hoặc cập nhật từ hệ thống.
+  - Trung tâm điều khiển sẽ nhận dữ liệu và đưa ra quyết định dựa trên thông tin nhận được.
+- Kết quả: Dữ liệu được truyền đi thành công, đảm bảo việc theo dõi và phân tích từ xa.
+
+#### Ca sử dụng 5: Phát hiện và xử lý lỗi tự động
+##### Mục tiêu: Phát hiện lỗi trong hệ thống và tự động tái cấu hình để tiếp tục hoạt động.
+- Mô tả:
+  - Người tham gia: FaultManagementLayer, AutoReconfiguration.
+- Tiến trình:
+  - FaultManagementLayer giám sát và phát hiện các lỗi hệ thống (cảm biến không hoạt động, mất kết nối, lỗi dữ liệu).
+  - AutoReconfiguration tự động khôi phục hệ thống khi có lỗi nhỏ, chẳng hạn như tái khởi động lại cảm biến hoặc hệ thống.
+  - Nếu lỗi không thể tự động xử lý, hệ thống sẽ gửi cảnh báo về trung tâm điều khiển.
+- Kết quả: Hệ thống khôi phục hoạt động hoặc cảnh báo về lỗi nghiêm trọng.
+
+#### Ca sử dụng 6: Lưu trữ tạm thời dữ liệu
+##### Mục tiêu: Lưu trữ dữ liệu tạm thời trước khi xử lý hoặc truyền tải.
+- Mô tả:
+  - Người tham gia: TemporaryStorage, DataCleaning.
+- Tiến trình:
+  - Dữ liệu thu thập được từ cảm biến được lưu trữ tạm thời trong bộ nhớ.
+  - Sau đó, dữ liệu này sẽ được xử lý bởi DataCleaning và ErrorDetection để làm sạch và phát hiện lỗi.
+- Kết quả: Dữ liệu được lưu trữ an toàn và có thể truy xuất lại khi cần thiết.
+
+### Biểu đồ kết quả các ca sử dụng:
+![Login](https://www.planttext.com/plantuml/png/ZLJ1RjD04Br7oZ-CUk-1j6ah3gZ2792Agg0cWglZM5chphhOkuKUKG-vaXFYW4HQ8GvjHP4uUOKuEEf_x9ymit7YtIIkk3Yoi-_DU_DczZ0JVYhaA6us_40aAMnrKvrFHz1bMdsDe1lf_A_O0Z-3Dw4lM9YU25z42RVEIpw4Rd4rWjcdIAkF4euO_bvoW_8IBj8aza8kmdG9ydH-FOBdH3u_TXBoBAd-VwdLs4YO8FVnx1AVhnxkjRhcGtEyaxn79HUP24VDHhCXip3min35C0c2wVpk30PQ_OGOXOpD9p8ZAZCzxua5UwlL7SJ57mTqNdo3CrPC1P2TCOTOgyzHYMvPwDSItN23vqPgR4ljUJksm5HUO8yu2CH4JhrtqeTpyYqYpahehWNjs5f8t8U5QYCC6TKlc4sq-hAitBRWs3ziH4e5XKcuR8ebeKJjRKPjzBPldJsYr94tzOsyFZfCyAsuXS34tQ_Yxda7b9ixKh2z_Oo2WQTGbwDMDmvP3KKBAPQPafRJIfh5LuFUGRJbHT12e7E1_OzMkb33q4Q6pjhe03FfpgUw1hc7oFz8YfhdR5O9tqNuCVLjFY53xC4ZGxQPerrneENVwBPVJ9FI0h5Y0DybiEAMC_oQJrUDDHlpRRRozEYE89oRfnkbjTHM4XRKxJq4B5cflCwmx_PpXM7mS6_0Dpwf9gdL_BnmTVxWrRvbleHJXXktd582jwm8ry6pYIaQKF6DwIv85rM8ibrI7hWJ-SXs6OhrMuli7OPyO2xwVm00)
