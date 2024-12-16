@@ -73,3 +73,17 @@ Hệ thống được thiết kế theo kiến trúc hướng đối tượng (o
 
 Biểu đồ:
 ![Login](https://www.planttext.com/plantuml/png/ZLGzRnD14ErFklymFR54xG854X4X9SWeAMZNvvDlbTjPixSB14GHKQIWmK88KL0aLgeeIb12SokKugpyZ_qdxAxlOj-79LoSvDityzxCUtkRcIH2AfQ6GNP8SK84OH2b9CkUIYdeKCduHSHndtw8uN4OX84_Wpr2SOkZ53nDOm4Vmm3ixn7ClrAZZnLC4gEd519kybC9ywdHFt6y19bync1ednoC_euUy0KJi5Kd85sjGtzQykt7c76HxPAZLRQ3H3bqVZc1aT5Na5ho4_zA_w8WgSdlP8NTCVgIDc35hMFExn2sYIG3mQCuipIUfKRVFbwAU6qRGrhyRVMk08Eai3j8t052QlGFMftitbzRg71rqYwAbShNItvVSPMojpXZ2cb49ENObZtWxsAnHv2COnQZR6qlvZ0g_b30-MSSGtf_RVHiQPFLVOQLazqGg_0RwyE1oSyPJ2XkW5IaDwG8OrhSRBXNhgOSigQjBNr5cL17DaPOc_sD8l3MvuDYKY5VElSH8fy1T7-aNQM-i8JAwfN56QknFYSgbMitiaCBQqBcxF8-DV9OYZFwDnnQggl8B-SygfkwS6rOd7A8t6FHoIe_RejgNADUxqazwVt6XUgiw0ZdVzLrfgCFhvIzb-XJrZIzeqc7ZKroD_R2JdShrlJfDARLwI7_vSR3eBQkjTlORbtD3jZQSLQhvzDYzY0Z33fbkqQD4Vlmh1u8ftqpnf7_ylu3)
+
+
+### 2.Các cơ chế phân tích:
+#### 2.1.Cơ chế làm sạch dữ liệu (Data Cleaning): Làm sạch dữ liệu thu thập từ các cảm biến, loại bỏ các giá trị nhiễu hoặc không hợp lệ.
+##### Phân tích cơ chế
+- Các cảm biến thu thập dữ liệu có thể gặp sự cố hoặc bị nhiễu do môi trường (ví dụ: cảm biến nhiệt độ bị ảnh hưởng bởi ánh sáng mặt trời trực tiếp hoặc cảm biến gió bị ảnh hưởng bởi các vật cản).
+- Data Cleaning đảm bảo rằng dữ liệu đầu vào là chính xác và có thể sử dụng cho các phân tích sau này.
+- Lợi ích: Giúp đảm bảo chất lượng dữ liệu đầu vào, từ đó cải thiện độ chính xác của dự báo thời tiết và các nghiên cứu về biến đổi khí hậu.
+##### Các hoạt động chính:
+- Loại bỏ các giá trị cực trị hoặc không hợp lý (ví dụ: nhiệt độ cực cao hoặc thấp).
+- Chuẩn hóa dữ liệu từ các cảm biến khác nhau (ví dụ: chuyển đổi đơn vị đo lường nếu cần).
+
+#### 2.2.Cơ chế phát hiện lỗi (Error Detection): Phát hiện các lỗi phần cứng hoặc lỗi dữ liệu bất thường trong hệ thống.
+
