@@ -72,36 +72,4 @@ Hệ thống được thiết kế theo kiến trúc hướng đối tượng (o
   - Điều phối hoạt động của các lớp trên, đảm bảo hệ thống hoạt động liên tục và chính xác.
 
 Biểu đồ:
-                        +-----------------------------+
-                        |       Main Controller       |
-                        | (Điều phối các hoạt động)   |
-                        +-------------+---------------+
-                                      |
-     ---------------------------------------------------------
-     |                          |                          |
-+----------------+      +----------------+      +--------------------+
-| Sensors Layer  |      | Data Processor |      | Power Management  |
-| (Thu thập dữ  |      | Layer           |      | Layer             |
-| liệu thời tiết)|      | (Xử lý dữ liệu |      | (Quản lý năng      |
-|                |      | thô)           |      | lượng: Pin, NLMT, |
-| - Nhiệt độ     |      |                |      | NL Gió)           |
-| - Độ ẩm        | ---> | - Làm sạch     |      |                    |
-| - Áp suất      |      | - Phát hiện lỗi|      +--------------------+
-| - Tốc độ gió   |      | - Lưu trữ tạm  |                |
-| - Lượng mưa    |      +----------------+                |
-+----------------+                                      |
-                                                        |
-                                     +------------------v-----------------+
-                                     | Communication Layer                |
-                                     | (Truyền thông qua vệ tinh)         |
-                                     | - Gửi dữ liệu về trung tâm         |
-                                     | - Nhận cập nhật từ trung tâm       |
-                                     +-------------------------------------+
-                                                        |
-                                     +------------------v-----------------+
-                                     | Fault Management Layer             |
-                                     | (Quản lý lỗi và khắc phục)         |
-                                     | - Phát hiện lỗi                    |
-                                     | - Tự cấu hình lại                  |
-                                     | - Gửi báo cáo lỗi về trung tâm     |
-                                     +-------------------------------------+
+![Login](https://www.planttext.com/#)
