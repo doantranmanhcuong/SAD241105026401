@@ -197,371 +197,153 @@ Hệ thống được thiết kế theo kiến trúc hướng đối tượng (o
 ### Biểu đồ kết quả các ca sử dụng:
 ![Login](https://www.planttext.com/plantuml/png/ZLJ1RjD04Br7oZ-CUk-1j6ah3gZ2792Agg0cWglZM5chphhOkuKUKG-vaXFYW4HQ8GvjHP4uUOKuEEf_x9ymit7YtIIkk3Yoi-_DU_DczZ0JVYhaA6us_40aAMnrKvrFHz1bMdsDe1lf_A_O0Z-3Dw4lM9YU25z42RVEIpw4Rd4rWjcdIAkF4euO_bvoW_8IBj8aza8kmdG9ydH-FOBdH3u_TXBoBAd-VwdLs4YO8FVnx1AVhnxkjRhcGtEyaxn79HUP24VDHhCXip3min35C0c2wVpk30PQ_OGOXOpD9p8ZAZCzxua5UwlL7SJ57mTqNdo3CrPC1P2TCOTOgyzHYMvPwDSItN23vqPgR4ljUJksm5HUO8yu2CH4JhrtqeTpyYqYpahehWNjs5f8t8U5QYCC6TKlc4sq-hAitBRWs3ziH4e5XKcuR8ebeKJjRKPjzBPldJsYr94tzOsyFZfCyAsuXS34tQ_Yxda7b9ixKh2z_Oo2WQTGbwDMDmvP3KKBAPQPafRJIfh5LuFUGRJbHT12e7E1_OzMkb33q4Q6pjhe03FfpgUw1hc7oFz8YfhdR5O9tqNuCVLjFY53xC4ZGxQPerrneENVwBPVJ9FI0h5Y0DybiEAMC_oQJrUDDHlpRRRozEYE89oRfnkbjTHM4XRKxJq4B5cflCwmx_PpXM7mS6_0Dpwf9gdL_BnmTVxWrRvbleHJXXktd582jwm8ry6pYIaQKF6DwIv85rM8ibrI7hWJ-SXs6OhrMuli7OPyO2xwVm00)
 
-## Xác định các phần tử thiết kế:
-## 1. Xác định các lớp và các hệ thống con
+## Xác định các phần tử thiết kế
+### 1. Các phần tử thiết kế chính
+**a. Các thành phần phần cứng (Hardware Components)**
 
-**1. Các lớp chính trong hệ thống:**
+**Cảm biến (Sensors):**
 
-**1.1. Lớp WeatherStation (Trạm thời tiết)**
-
-#### Thuộc tính:
-
-- stationID: ID duy nhất của trạm.
-- location: Vị trí địa lý (kinh độ, vĩ độ).
-- powerStatus: Trạng thái nguồn (mức pin, năng lượng mặt trời/wind generator hoạt động).
-- communicationStatus: Trạng thái kết nối vệ tinh.
-- sensorData: Bộ dữ liệu thu thập từ các cảm biến (tốc độ gió, hướng gió, nhiệt độ, áp suất, lượng mưa...).
-- localStorage: Bộ nhớ cục bộ lưu dữ liệu khi mất kết nối.
+**Chức năng:**
+- Thu thập dữ liệu môi trường như nhiệt độ, độ ẩm, áp suất không khí, tốc độ gió.
   
-#### Phương thức:
-
-- collectData(): Thu thập dữ liệu từ các cảm biến.
-- processData(): Xử lý và tổng hợp dữ liệu trước khi truyền.
-- transmitData(): Truyền dữ liệu đã xử lý đến hệ thống quản lý.
-- storeDataLocally(): Lưu dữ liệu cục bộ khi không thể truyền đi.
-- monitorHardware(): Giám sát trạng thái phần cứng (cảm biến, truyền thông).
-- managePower(): Quản lý nguồn năng lượng và sạc pin.
-- reconfigureSystem(): Cấu hình lại hệ thống khi có thay đổi phần mềm hoặc lỗi phần cứng.
-
-**1.2. Lớp Sensor (Cảm biến)**
-
-#### Thuộc tính:
-
-- sensorType: Loại cảm biến (nhiệt độ, áp suất, gió, mưa...).
-- sensorID: ID duy nhất của cảm biến.
-- dataFrequency: Tần suất đo lường.
-- status: Trạng thái hoạt động của cảm biến.
+**Ví dụ:**
+-  Cảm biến nhiệt độ (Thermometer), cảm biến độ ẩm (Hygrometer), cảm biến áp suất (Barometer).
   
-#### Phương thức:
+**Bộ xử lý chính (Main Processor):**
 
-- readData(): Đọc dữ liệu thời tiết từ cảm biến.
-- calibrate(): Hiệu chỉnh cảm biến.
-- selfCheck(): Tự kiểm tra trạng thái hoạt động.
+**Chức năng:**
+- Điều phối hoạt động của hệ thống, xử lý dữ liệu, thực thi các thuật toán phát hiện lỗi.
   
-**1.3. Lớp PowerManagement (Quản lý nguồn)**
+**Bộ nhớ tạm (Temporary Storage):**
 
-#### Thuộc tính:
-
-- batteryLevel: Mức pin hiện tại.
-- solarPanelStatus: Trạng thái tấm năng lượng mặt trời.
-- windGeneratorStatus: Trạng thái máy phát gió.
+**Chức năng:**
+- Lưu trữ dữ liệu tạm thời trước khi xử lý hoặc truyền tải.
   
-#### Phương thức:
+**Nguồn năng lượng (Power System):**
 
-- chargeBattery(): Sạc pin từ nguồn năng lượng tái tạo.
-- shutDownInStorm(): Tắt hệ thống khi điều kiện thời tiết nguy hiểm.
-- optimizePowerUsage(): Tối ưu hóa tiêu thụ năng lượng.
+**Chức năng:**
+- Cung cấp năng lượng, bao gồm tấm pin mặt trời, tua-bin gió và pin dự trữ.
   
-**1.4. Lớp Communication (Truyền thông)**
+**Hệ thống truyền thông vệ tinh (Satellite Communication Module):**
 
-#### Thuộc tính:
+**Chức năng:**
+-Truyền tải dữ liệu từ hệ thống tới trung tâm điều khiển từ xa.
 
-- satelliteLinkStatus: Trạng thái liên kết vệ tinh.
-- bandwidth: Băng thông vệ tinh hiện có.
+**Mô hình hóa thành phần phần cứng:**
+
+![Diagram](https://www.planttext.com/plantuml/png/V9DBReD038Rtd6AKLRF81LXKKTDANJHI9781bx78g8oDF8O8LJbP5prIhr0DZq0UBIl0zl_vjsT-lhxNGK6qzcLIGVu11Ph5AuWzWg3PiA-Oa3Gip6TYJ5v222P32YpTZ_XuX50BFeF2mp8Tel4hCUPqBjg2evrmZc5UcpEBTGIAMHiKVHHesDaXNFK5dRG5XRdwCZM37jeRsXvznGBIPieIFOt0e3oqskjTI5p21LKSDcTZVzDsV4Jf3KnJONBAqeNUiC6oa-WI5RGEPqX-02dm2LHHsYl_uUWqF-pvXL2ADeF6KR5bYxEqgOiC5ClIAMxO-vfS3kgOjcphSlAl0XIyqtz6yCvS8j3K8BgcqmIo4JoyTkp4ZATXjNgysd5g0f8D9b8ISnMCwJTBIllrX77lQCVY-OJlaIhXnjbO6HFlqluTpqMlfsIDPEED-0K00F__0m00)
+
+**b. Các thành phần phần mềm (Software Components)**
+
+**Bộ xử lý dữ liệu (DataProcessor):**
+
+**Chức năng:**
+- Xử lý dữ liệu thô từ các cảm biến, làm sạch dữ liệu và phát hiện các lỗi.
   
-#### Phương thức:
+**Bộ phát hiện lỗi (ErrorDetectionModule):**
 
-- establishConnection(): Kết nối với vệ tinh.
-- transmit(): Truyền dữ liệu đến hệ thống quản lý.
-- retryTransmission(): Thử lại khi truyền thất bại.
+**Chức năng:**
+- Phân tích dữ liệu để phát hiện bất thường hoặc lỗi hệ thống.
   
-**1.5. Lớp DataManagement (Quản lý dữ liệu)**
+**Quản lý năng lượng (PowerManagementModule):**
 
-#### Thuộc tính:
-
-- rawData: Dữ liệu thô từ cảm biến.
-- processedData: Dữ liệu đã được xử lý.
-- storageCapacity: Dung lượng lưu trữ cục bộ.
+**Chức năng:**
+- Theo dõi và tối ưu hóa việc sử dụng năng lượng, chuyển hệ thống sang chế độ tiết kiệm năng lượng khi cần thiết.
   
-#### Phương thức:
+**Quản lý lỗi (FaultManagementModule):**
 
-- aggregateData(): Tổng hợp dữ liệu theo khoảng thời gian.
-- compressData(): Nén dữ liệu để tối ưu truyền tải.
-- clearOldData(): Xóa dữ liệu cũ để giải phóng dung lượng.
+**Chức năng:**
+- Phát hiện và xử lý các lỗi trong hệ thống, kích hoạt cơ chế tự phục hồi (AutoReconfiguration).
   
-**1.6. Lớp Maintenance (Bảo trì)**
+**Bộ giao tiếp vệ tinh (SatelliteCommunication):**
 
-#### Thuộc tính:
-
-- hardwareStatus: Tình trạng phần cứng.
-- errorLogs: Nhật ký lỗi.
-- softwareVersion: Phiên bản phần mềm hiện tại.
+**Chức năng:**
+- Quản lý truyền tải dữ liệu qua vệ tinh tới trung tâm điều khiển.
   
-#### Phương thức:
+**Hệ thống lưu trữ (StorageModule):**
 
-- sendStatusReport(): Gửi báo cáo tình trạng đến hệ thống bảo trì.
-- updateSoftware(): Cập nhật phần mềm.
-- performDiagnostics(): Chạy chẩn đoán lỗi.
+**Chức năng:**
+- Lưu trữ dữ liệu tạm thời hoặc dài hạn, đảm bảo dữ liệu không bị mất khi có sự cố.
+
+  **Mô hình hóa thành phần phần mềm:**
   
-## **2. Quan hệ giữa các lớp:**
-
-#### WeatherStation liên kết với nhiều Sensor:
-
-- Mỗi trạm thời tiết bao gồm nhiều cảm biến để đo các thông số khác nhau.
+  ![Diagram](https://www.planttext.com/plantuml/png/Z5DBJiD03Dtd51QhTi45Pe4gyLc1L54uW9anOKGoZcod5KKz6GkEn1NG9A6q9Qt8Ad7UP_pi-VhudAcXM5jNHOF-5Kk2imK_smg5u9BhXXCbqpDuBm1yXQfmXOPpOK-gB5qzFxuYJFdN9A2XWmKbPSc5gOC1JY5_3uIch_sNijdwNukmN96HjyZfZaDRqVOOcB1wMzEEwfxGrFNqUsfOR4zspYkIEqnOKat93dIviLZ7DNMeHyMI9bC7IuvX0EWgcdzvu5jUzKeSTY6_FZVOLdRK9tHzTHWT6jWvyDJ14tDEUe0BUKxFiMo55czgL8zQBj2eggBH9TTrcwB7dDpMqmIJrj5EXFR7bUAoKyCKikNmkkzgB5ZIGODgBAV6inEfa4caPOyUNOa23hRn_FnYV3_SpxwHGZOkO1oN1SOdv42w6IXG9ce1HrRcb4HCHeBUCdiSazb7vkL0AGM5jWbeb2N-DhyVkklZrlvsKkXRtnGpIY5V-My0003__mC0)
   
-#### WeatherStation sử dụng PowerManagement:
-
-- Quản lý nguồn là một phần quan trọng của trạm thời tiết.
   
-#### WeatherStation liên kết với Communication:
+### 2. Tổ chức các phần tử thiết kế
+**Hệ thống được tổ chức theo kiến trúc phân lớp (Layered Architecture), bao gồm các lớp chính:**
 
-- Để giao tiếp với hệ thống quản lý và bảo trì qua vệ tinh.
+**Lớp phần cứng (Hardware Layer):**
+- Bao gồm các cảm biến, bộ xử lý chính, nguồn năng lượng và module truyền thông vệ tinh.
   
-#### WeatherStation liên kết với DataManagement: 
-
-- Để xử lý, lưu trữ và truyền tải dữ liệu.
+**Lớp xử lý dữ liệu (Data Processing Layer):**
+- Gồm các module xử lý dữ liệu, phát hiện lỗi, và quản lý năng lượng.
   
-#### Maintenance liên kết với WeatherStation:
-
-- Để theo dõi trạng thái và thực hiện các hoạt động bảo trì.
-
-##  **3. Ánh xạ từ lớp phân tích đến các phần tử thiết kế**
-
- ### 1. Lớp WeatherStation
- 
-**Phân tích:**
-- Trạm thời tiết là lớp chính, chịu trách nhiệm tổng hợp dữ liệu từ các cảm biến, xử lý dữ liệu, và quản lý giao tiếp với các hệ thống khác.
+**Lớp giao tiếp (Communication Layer):**
+- Bao gồm các thành phần liên quan đến truyền tải dữ liệu qua vệ tinh.
   
-**Thiết kế:**
+**Lớp lưu trữ (Storage Layer):**
+- Quản lý bộ nhớ tạm và dữ liệu lưu trữ dài hạn.
+
+  **Mô hình hóa Kiến trúc phân lớp**
   
-- Đảm bảo rằng lớp này hoạt động như bộ điều phối chính (Coordinator Class), tương tác với các lớp phụ trợ như Sensor, PowerManagement, Communication, và DataManagement.
+  ![Diagram](https://www.planttext.com/plantuml/png/R5BDQiCm3BxxAKJlVO4UHikwiSC2XUm5XArcPh4TP8KGHfziXptINc5uIOgJ-MQaxq-IVxw-Zr6GfNUjwb1_O4EmUyMHc0oSMBzR8Iqzqmu-5S0Tye9i1cI2F-pK1D0jnWWr-HWuArHe_OM3fhYkNy90N8zHoELq56fRA_GOdEkzrIWs-2gOlYK5SCjZd54GPcdhcrAQ12cPFp47FbCQBvTVsi_OjrAXnuOSUIdRhn8MLr6SPIjJI-3qA0YyaUi28uyp9jUUAbao1VFkORz_M0yE1uZaJGJ60GmAAjW04cNhbbWIc29q4uxCGlu7JVnL93Y0CFfu9OuBAxjuCMEN-dStwni5vKjCTiNjBhxEIeHh8a_kDtKaRz97_mK00F__0m00)
   
-- Sử dụng các mẫu thiết kế như Facade Pattern để cung cấp một giao diện thống nhất cho các chức năng của trạm.
+### 3. Các cơ chế thiết kế được sử dụng
+**a. Cơ chế xử lý dữ liệu (Data Processing Mechanism)**
+- Dữ liệu từ cảm biến được thu thập, làm sạch và xử lý để đảm bảo tính chính xác.
   
-**Chi tiết thiết kế:**
-**Thuộc tính:**
-- stationID: String
-- location: Coordinates (Lớp con đại diện cho kinh độ/vĩ độ).
-- powerManagement: PowerManagement
-- communication: Communication
-- sensors: List<Sensor>
-- dataManager: DataManagement
+- Xử lý dữ liệu theo chu kỳ, giảm tải cho hệ thống khi năng lượng thấp.
+
+  **Mô hình hóa Cơ chế xử lý dữ liệu**
   
-**Phương thức:**
-- collectData(): Điều phối việc lấy dữ liệu từ các cảm biến.
-- transmitData(): Sử dụng Communication để gửi dữ liệu đã xử lý.
-- handleFault(): Quản lý lỗi thông qua các phương thức của Maintenance.
+  ![Diagram](https://www.planttext.com/plantuml/png/T94nRiCm301tlOB8L0_vW8OYGzS01Jnq9YH2CM990Kad20g_h4EVr2yKYcKZDX1kedZaKVhx-Js88kiGUtD1TyP0iFj0HVZax4YaIm6Ev4wOEeax-3O0haSHQ2b9vaUYH2IKWQcWRusjj-La0CO5AedQ-8brFM5wa1uLd-76pXxaQxCI609JGALNq1UXdeZR8KRa-qgXrSmOw9ZzqDEY89gh_DHjDRMnSCsThwLCoXrTbrMtWgCnCB_EVl--sTc2KF82Z3Seemni2WgoThIJdS1bdZIHepbGykNd_W400F__0m00)
   
-### 2. Lớp Sensor
-**Phân tích:**
-- Các cảm biến đo các thông số thời tiết và cung cấp dữ liệu thô.
+**b. Cơ chế phát hiện lỗi (Error Detection Mechanism)**
+- Các thuật toán phân tích dữ liệu được áp dụng để phát hiện bất thường.
   
-**Thiết kế:**
-- Triển khai lớp trừu tượng (Abstract Class) Sensor để đại diện cho các loại cảm biến khác nhau, sau đó kế thừa để cụ thể hóa từng loại cảm biến.
-- Mẫu thiết kế Strategy Pattern có thể được áp dụng nếu các cảm biến có cách xử lý dữ liệu khác nhau.
+- Phân biệt lỗi phần cứng (như cảm biến hỏng) và lỗi dữ liệu.
 
-**Chi tiết thiết kế:**
+**Mô hình hóa Cơ chế phát hiện lỗi**
 
-**Lớp trừu tượng Sensor:**
+![Diagram](https://www.planttext.com/plantuml/png/R951JiCm44NtFiMegsJH2tY1kYZi8Y5wWY7-b0Z74tcSIe1wCXOSYIiWEo4YLRomv3ypx-kFVxw-3veufh7tPk3sZS-WtNsC4kc8X3Pr4gX1-ygXqtv7duQezQnAHqxy6AM5giIYvpDCIYvMZXDREY6en2pKbkO1kFmsHDS5LpmNoqRSwB5GER1__y0_wWfKssdy2OF4jC8-yEXJmu7Fw17I3TSLlzAZLIpJArHj9y3S7g7YBoXIzPBlkLvRUXRnu53C3TriPx-_smveyy8kdOF-RGwESa93smEPj9t9aY8u9PJFcyAekPe3Wik_-mi00F__0m00)
 
-**Thuộc tính:**
-
-- sensorID: String
-- sensorType: SensorType (Enum gồm: TEMPERATURE, PRESSURE, WIND_SPEED, v.v.).
-- dataFrequency: int (Tần suất đo lường).
+**c. Cơ chế quản lý năng lượng (Power Management Mechanism)**
+- Theo dõi mức năng lượng và tự động chuyển đổi chế độ hoạt động (tiết kiệm năng lượng khi pin yếu).
   
-**Phương thức:**
+- Ưu tiên cung cấp năng lượng cho các thành phần thiết yếu.
 
-- readData(): WeatherData (Phương thức trừu tượng).
-- selfCheck(): Boolean (Phương thức trừu tượng).
-- Lớp cụ thể (VD: TemperatureSensor, WindSensor):
-- Cài đặt readData() và selfCheck() dựa trên loại cảm biến.
+  **Mô hình hóa Cơ chế quản lý năng lượng**
   
-### 3. Lớp PowerManagement
-
-**Phân tích:**
-- Lớp này quản lý nguồn pin và các cơ chế sạc năng lượng tái tạo.
+  ![Diagram](https://www.planttext.com/plantuml/png/Z9112i9034NtFKNeIXTUe0iHroq8wW529zJ1pgHCqXOLJ-R28ta5wLYqBWIpJ5x-_ydZTb-9Oj3MrKc3vH4hWdJ3FGKeq6D5Zhn2GUK1lHMNmYK1A6iKWKXjJwBaOdSenzugXpZAgQDwDiz6K55R6R4mw8MArgXAuJH07LipJgMtMXvsd7CVLmisD46ktma-CGisRKtlBDoeTVPCaTeBLbEHltmI-3foiLZ-iCn0o1k19ZvENgTUanLvCpps2G00__y30000)
   
-**Thiết kế:**
-- Phân tách quản lý năng lượng thành các mô-đun nhỏ hơn:
-- BatteryManager: Quản lý pin.
-- EnergyHarvesting: Quản lý năng lượng mặt trời và gió.
-- Áp dụng Observer Pattern để giám sát mức năng lượng và kích hoạt hành động khi năng lượng thấp.
+**d. Cơ chế tự phục hồi (Auto-Reconfiguration Mechanism)**
+- Khi lỗi được phát hiện, hệ thống sẽ tự động tái cấu hình để tiếp tục hoạt động.
   
-**Chi tiết thiết kế:**
+**Ví dụ:**
+- Ngắt cảm biến bị lỗi và sử dụng các cảm biến dự phòng nếu có.
+
+**Mô hình hóa Cơ chế tự phục hồi**
+
+![Diagram](https://www.planttext.com/plantuml/png/b591JWCn3Bpd5LPFkuT-80TKKE5M2RKlC8ctHCqcLUnKAgWluy2J-09AThjIqO94RixOCvv9lZu-LooO9FTU7T4SS4-mkCyIbrioCNHkdnEAYm4sP5unEEuNyAu0Z4TcUCBiPOC1zzHJa4sqsLF5ox4aPAJsS9Fe69DeU4mffcqjMZqGZErfKgJTcONwfYlesDHgE4Ld5S1bajzHu9WclPwGSw8r2ZQj7j5INVTnZ2-UcZcg1pI7VFmd8Hfn9vHvncfqNIDmCVo81WFwyzl0R55GmtEAXfZ9bhls9gTAg-2Nj9VBksiGUeoSeIRtvyYDOJrPON0TzEW2y01rw3mhcBTJYEObT9ct35J6O7XyLXUrec3BP_i6003__mC0)
   
-**Thuộc tính:**
-- batteryLevel: int
-- solarPanelStatus: Boolean
-- windGeneratorStatus: Boolean
-**Phương thức:**
-- chargeBattery(): Kích hoạt sạc.
-- shutDownInStorm(): Ngắt hoạt động trong điều kiện thời tiết khắc nghiệt.
-- optimizePowerUsage(): Tối ưu hóa sử dụng năng lượng.
-### 4. Lớp Communication
-
-**Phân tích:**
-
-- Quản lý giao tiếp giữa trạm và hệ thống quản lý qua vệ tinh.
+**e. Cơ chế truyền thông (Communication Mechanism)**
+- Dữ liệu được truyền qua vệ tinh theo lô để tiết kiệm năng lượng.
   
-**Thiết kế:**
-- Đưa thêm các chiến lược dự phòng như lưu dữ liệu cục bộ khi mất kết nối.
-- Áp dụng Command Pattern để đảm bảo việc truyền dữ liệu được thực hiện tuần tự và có thể thử lại nếu thất bại.
+- Hỗ trợ truyền dữ liệu ưu tiên cao (báo cáo lỗi) khi có sự cố khẩn cấp.
+
+  **Mô hình hóa Cơ chế truyền thông**
   
-**Chi tiết thiết kế:**
-**Thuộc tính:**
-- satelliteLinkStatus: Boolean
-- bandwidth: int
-- Phương thức:
-- establishConnection(): Boolean
-- transmit(data: ProcessedData): Boolean
-- retryTransmission(data: ProcessedData): Boolean
-### 5. Lớp DataManagement
-**Phân tích:**
-- Xử lý, tổng hợp và lưu trữ dữ liệu thu thập từ các cảm biến.
+  ![Diagram](https://www.planttext.com/plantuml/png/Z911Qa9138RtSuhWIXTUu2sAKEdkGMbFy3iJxT2PZ4potCWxcGkFv1NAFEI92w5PXV0bNvBRvRfHGxKX9tU4_yM1QV5USXuaUbWiGZtx7qZKlA2p8_89glGDuvIYyJFRW1PM8PgZRM5O1XWw-gp5iog7Lbjrj2ibCUJUKDbpF4tJ866vwkYUEg9njdvWIDP3SE3COdq9G-9P6jZOsyJelwJA4YRyYu-bMhC-WD4vUY5ShzzUFQ2RJrVQjsPgYxZHRLX2U_8V0000__y30000)
   
-**Thiết kế:**
-- Tối ưu hóa dữ liệu trước khi truyền để giảm băng thông qua Compression Algorithms.
-- Áp dụng Singleton Pattern để đảm bảo chỉ có một bộ quản lý dữ liệu cho mỗi trạm.
+**f. Cơ chế lưu trữ (Storage Mechanism)**
+- Dữ liệu được lưu trữ tạm thời nếu kết nối vệ tinh bị gián đoạn.
   
-**Chi tiết thiết kế:**
-**Thuộc tính:**
-- rawData: List<WeatherData>
-- processedData: ProcessedData
-- storageCapacity: int
-  
-**Phương thức:**
-- aggregateData(): ProcessedData
-- compressData(data: ProcessedData): CompressedData
-- clearOldData(): Giải phóng dung lượng lưu trữ.
-### 6. Lớp Maintenance
-**Phân tích:**
+- Cơ chế nén dữ liệu được áp dụng để tối ưu hóa bộ nhớ.
 
-- Hệ thống bảo trì theo dõi trạng thái phần cứng và thực hiện cập nhật từ xa.
-  
-**Thiết kế:**
-- Tích hợp Remote Update System và cơ chế chẩn đoán lỗi tự động.
-- Sử dụng Template Method Pattern để đảm bảo các quy trình bảo trì diễn ra theo một trình tự chuẩn.
-  
-**Chi tiết thiết kế:**
+****Mô hình hóa Cơ chế lưu trữ**
 
-**Thuộc tính:**
-- hardwareStatus: Map<Component, Status>
-- errorLogs: List<ErrorLog>
-- softwareVersion: String
-  
-**Phương thức:**
-- sendStatusReport(): StatusReport
-- updateSoftware(version: String): Boolean
-- performDiagnostics(): DiagnosticReport
-
- ## 4.Nhóm các lớp thiết kế vào package
-**Package weatherstation**
-
-- Chứa lớp trung tâm WeatherStation.
-  
-**Package sensor**
-
-**Chứa các lớp liên quan đến cảm biến:**
-- Sensor (lớp cơ sở).
-- TemperatureSensor.
-- PressureSensor.
-- WindSensor.
-- RainSensor.
-- Package power
-
-**Chứa lớp PowerManagement.**
-- Package communication
-
-**Chứa lớp Communication.**
-- Package data
-
-**Chứa lớp DataManagement**
-- Package maintenance
-
-**Chứa lớp Maintenance.**
-#### Biểu đồ Package
-![Diagram](https://www.planttext.com/plantuml/png/X5R1Rjim3BtdAuITEc3v0QCeYYNhK235WgPRpupCEa9bogFePjdMBzjXdxHV66JBjfouxIcX-4JfFP4l-VVdxwKNOAbBEwj0FqA1wjqUGNR8Na2CetVgrqmfRS5xTTzcDcscIIWrLn5vlSpKHjXG4TUjqqqYKmldE3S4WZxcAhT7lW620aiaoTHwl11XsfLbJMQeauJTwKZUiS_KodWvtpJHHSpb8D3Mv4mj-o0ve0H3WWIaCLCtGz2cvys7KjfPYrf2XRFtcNfo9eyPOI1VcgdK3YYtU0MrbIJpF7kU3LgtbsyrXgqN1YrHx9R9878JdcZSBjyTAipYZl0zeN_5-Br6qeTCcPvrUB7QPshhd4MWCLb6o3iwySL3s4a1rcmP18_OUhGFYntgnx0-r7sUzTrpXsM5358pHcxuGv3oZceFN3Dw_oRgtb3-Ek8M34qZqYUeGkEbNNxKYVqBR444-R329xGZCPq5NWEXtKp9glQ6yiz8WRfhPkT5vVKEkC2FxJb7-hfAJ6b-OdExhnwAamVOrR9qUxgcZJWkNsovqKYbl4V3DVGT25fh15U67gS9Re7olSbbbwZIKK8liBN6xnQE27KeFMwGT8ZEGiDcQirEe_VOTE49c57uSDVky3xKUslNc7z0fxJ7jj3pPjY7JBILP0uwRwdIyuwExyVCCHIuW0gqaSE4F50KZ0K8TWDtMYQuJrc5aMWmqsGN4JBUPn7uY-s7UR8T4WDCLKcii9Ta1vplWR7hWXkepiF1Zf3aWsgNEtcGsV7A5PqnVufnb_VkGKAnRyZX4SUsridZaVAsx2rMZXiVJUC8gwiS13UnujdJkEH91rN83uxBfO62d1UZVQWxX7tjHgcZ7xtv_AApvanfHmA6lBgOWgsFZ2HJjSSNiEFXUmrvrA-lGTD7x77nykU_v_DJInvbnpuyIWtcEreU77TsYPI7lnN_0G00__y30000)
-
-### Giải thích biểu đồ Package:
-
-- Các lớp được nhóm theo chức năng trong hệ thống.
-- Lớp **WeatherStation** nằm ở package trung tâm và liên kết với tất cả các package con.
-- Package **sensor** chứa lớp cơ sở Sensor và các lớp cụ thể như **TemperatureSensor**, **PressureSensor.**
-- Package **power**, **communication**, **data**, và **maintenance** độc lập, nhưng được sử dụng bởi lớp WeatherStation.
-
-## 5.Xác định giao diện của hệ thống con
-
-**1. Hệ thống trạm thời tiết (WeatherStationSubsystem)**
-
-**Giao diện:** IWeatherStation
-- Giao diện cung cấp các chức năng để thu thập và quản lý dữ liệu thời tiết từ các cảm biến.
-  
-**Phương thức:**
-- collectData(): WeatherData
-→ Thu thập dữ liệu từ các cảm biến trên trạm.
-- getStationStatus(): StationStatus
-→ Lấy thông tin trạng thái của trạm (năng lượng, cảm biến, kết nối...).
-- transmitData(): void
-→ Truyền dữ liệu đã xử lý đến hệ thống quản lý.
-- storeDataLocally(): void
-→ Lưu dữ liệu cục bộ khi không thể truyền tải.
-- configure(newConfig: StationConfig): boolean
-→ Cập nhật cấu hình hoạt động của trạm thời tiết.
-
-**2. Hệ thống quản lý và lưu trữ dữ liệu (DataManagementSubsystem)**
-
- **Giao diện:** IDataManagement
-- Giao diện xử lý và lưu trữ dữ liệu từ các trạm thời tiết.
-  
- **Phương thức:**
-- receiveData(data: WeatherData): boolean
-→ Nhận dữ liệu thời tiết từ trạm.
-- processData(rawData: WeatherData): ProcessedData
-→ Xử lý dữ liệu thô thành dạng tổng hợp.
-- storeData(data: ProcessedData): boolean
-→ Lưu trữ dữ liệu đã xử lý vào hệ thống cơ sở dữ liệu.
-- retrieveData(query: Query): DataResult
-→ Truy xuất dữ liệu dựa trên các truy vấn.
-
-**3. Hệ thống bảo trì trạm (MaintenanceSubsystem)**
-
-**Giao diện:** IMaintenance
-- Giao diện giám sát, bảo trì, và cập nhật phần mềm trạm thời tiết.
-  
-**Phương thức:**
-- getHardwareStatus(stationID: String): HardwareStatus
-→ Lấy thông tin trạng thái phần cứng của trạm.
-- sendUpdate(stationID: String, updatePackage: Update): boolean
-→ Gửi gói cập nhật phần mềm tới trạm.
-- runDiagnostics(stationID: String): DiagnosticReport
-→ Chạy chẩn đoán lỗi trên trạm từ xa.
-- resetStation(stationID: String): boolean
-→ Khởi động lại trạm khi cần thiết.
-- scheduleMaintenance(stationID: String, time: DateTime): boolean
-→ Lập kế hoạch bảo trì trạm.
-
-**4. Hệ thống giao tiếp vệ tinh (SatelliteCommunicationSubsystem)**
-
-**Giao diện:** ICommunication
-- Giao diện quản lý giao tiếp giữa trạm thời tiết và hệ thống quản lý qua vệ tinh.
-  
-**Phương thức:**
-- establishConnection(stationID: String): boolean
-→ Thiết lập kết nối với một trạm thời tiết.
-- sendData(data: CompressedData, stationID: String): boolean
-→ Truyền dữ liệu từ hệ thống đến trạm qua vệ tinh.
-- receiveData(stationID: String): CompressedData
-→ Nhận dữ liệu từ trạm qua vệ tinh.
-- checkConnectionStatus(stationID: String): boolean
-→ Kiểm tra trạng thái kết nối vệ tinh của một trạm.
-
-**5. Hệ thống dự báo thời tiết (WeatherForecastingSubsystem)**
-
-**Giao diện:** IForecasting
-- Giao diện xử lý và dự báo thời tiết dựa trên dữ liệu đã thu thập.
-  
-**Phương thức:**
-- getWeatherData(query: Query): DataResult
-→ Lấy dữ liệu thời tiết đã xử lý từ hệ thống lưu trữ.
-- generateForecast(region: String, timeRange: TimeRange): ForecastResult
-→ Tạo dự báo thời tiết cho một khu vực cụ thể.
-- updateModel(modelConfig: ModelConfig): boolean
-→ Cập nhật mô hình dự báo thời tiết.
-
-### Biểu đồ thiết kế giao diện của hệ thống con 
-
-![Diagram](https://www.planttext.com/plantuml/png/Z5LBRjim4Dth54HMCf1SG0iZW8sY0M8WjLDqFQOcCc5ow9936qQHatNH8_KA1VMpQCb9jP1CyitlyStux-y_Zvx1SJ0wEu3SGuNYxWS2xz1j65XPseIjFtj6SoT-PK8eOdHl854yfRZwD3xIQesIby2GpmhHekAo1LJ8dMy63ZwYaeqMnmx86zLxEbfLjaUUhSEu_smbQ7s-EfQMtbGL7EQ4fqMzw4CqoraXjjPg1Cg4UC_UiqlvqUqA22eqI7ox_1JNb-zGeZhMoUKbC2GC967ZSt1MelSrsi5fEM7mqa2m753Orz-6I32Z80xPAMnp-XdGdGlnBNvcXOXxQ_H1yuY85SHg2KZYRHO6e9w22lahkF843jiRzWttJyju3KvHv3-5T8KXbTyF9J2ERUv5g4zUcWGBqG37vGPQAgZ8UbPoElRbV8q7wxWdolVQdBHB0tcvmp9e770mbJKhWpNH-AfCccvA-0OOjLQC2sjC82K_QS04rhEFdc6hbTyjB17A_wq5gHm8Qc7DmVMAkXUVEnZgVWgTUkmQTOToVydp0xNSugpjbI_MeGJFYghRV0r0GwqEskt3xcZWX0uOErUvmqfPIYzx3HJb-Thzd1MYmoVE6ZclR8awD_7TZQhLPJ4k_NhkFZpCHyEew8Ud5_52nJoxXjHcGqQAE8oEgiIBoR2vQ_nLw48OIugjyxL0Wez6K-cbIYr4yEY5x-GkjAAzc6UFI6Ny9_e7003__mC0)
+![Diagram](https://www.planttext.com/plantuml/png/j90n2i9044NxESMGoXIvG0f9OHiGz0B3xgZ191jc9e4GSZ8BZ-GLP3LQnDgfFfy7Zp-FsxrG8x6-gQ4ZTwKpOtAm836Kx2xKLjeaE06YgqaLZznqGKZ63pK1lauj2E_8QEF9ACUz1CUgx6ENvZY4oY-ei4d5mvjELoWWpb_R8Yc3x-i_gG1_DsNPTgNEqOHQFR4eHYdCK73huz-U0000__y30000)
 
 ### Giải thích biểu đồ:
 - Hệ thống trạm thời tiết giao tiếp trực tiếp với hệ thống quản lý dữ liệu **(IDataManagement)** để truyền dữ liệu thời tiết.
