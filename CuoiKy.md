@@ -197,7 +197,7 @@ Hệ thống được thiết kế theo kiến trúc hướng đối tượng (o
 ### Biểu đồ kết quả các ca sử dụng:
 ![Login](https://www.planttext.com/plantuml/png/ZLJ1RjD04Br7oZ-CUk-1j6ah3gZ2792Agg0cWglZM5chphhOkuKUKG-vaXFYW4HQ8GvjHP4uUOKuEEf_x9ymit7YtIIkk3Yoi-_DU_DczZ0JVYhaA6us_40aAMnrKvrFHz1bMdsDe1lf_A_O0Z-3Dw4lM9YU25z42RVEIpw4Rd4rWjcdIAkF4euO_bvoW_8IBj8aza8kmdG9ydH-FOBdH3u_TXBoBAd-VwdLs4YO8FVnx1AVhnxkjRhcGtEyaxn79HUP24VDHhCXip3min35C0c2wVpk30PQ_OGOXOpD9p8ZAZCzxua5UwlL7SJ57mTqNdo3CrPC1P2TCOTOgyzHYMvPwDSItN23vqPgR4ljUJksm5HUO8yu2CH4JhrtqeTpyYqYpahehWNjs5f8t8U5QYCC6TKlc4sq-hAitBRWs3ziH4e5XKcuR8ebeKJjRKPjzBPldJsYr94tzOsyFZfCyAsuXS34tQ_Yxda7b9ixKh2z_Oo2WQTGbwDMDmvP3KKBAPQPafRJIfh5LuFUGRJbHT12e7E1_OzMkb33q4Q6pjhe03FfpgUw1hc7oFz8YfhdR5O9tqNuCVLjFY53xC4ZGxQPerrneENVwBPVJ9FI0h5Y0DybiEAMC_oQJrUDDHlpRRRozEYE89oRfnkbjTHM4XRKxJq4B5cflCwmx_PpXM7mS6_0Dpwf9gdL_BnmTVxWrRvbleHJXXktd582jwm8ry6pYIaQKF6DwIv85rM8ibrI7hWJ-SXs6OhrMuli7OPyO2xwVm00)
 
-## Xác định các phần tử thiết kế
+## III.Xác định các phần tử thiết kế
 ### 1. Các phần tử thiết kế chính
 **a. Các thành phần phần cứng (Hardware Components)**
 
@@ -351,7 +351,7 @@ Hệ thống được thiết kế theo kiến trúc hướng đối tượng (o
 - Hệ thống giao tiếp vệ tinh **(ICommunication)** là trung gian truyền dữ liệu giữa các hệ thống trạm và hệ thống quản lý/lưu trữ.
 - Hệ thống dự báo thời tiết sử dụng dữ liệu từ hệ thống quản lý và cung cấp dự báo thời tiết qua **IForecasting.**
 
-## 1.Thiết kế hệ thống con
+## IV.Thiết kế hệ thống con
 ### 1.1Hệ thống Trạm thời tiết
 #### 1.1.1 Hiện thực hóa giao diện 
 
@@ -630,7 +630,7 @@ nhậnBáoCáoTìnhTrạng: Nhận báo cáo tình trạng từ trạm thời ti
 
 + Users có thể truy vấn dữ liệu từ Data Management System để phục vụ cho các mục đích dự báo hoặc phân tích thời tiết.
 
-  # 1.Thiết kế lớp
+  # V.Thiết kế lớp
 # 1.1 Sensors(Cảm biến)
 - Định nghĩa: Lớp này đại diện cho các cảm biến được sử dụng để đo các yếu tố khí tượng như nhiệt độ, độ ẩm, áp suất, gió.
 
